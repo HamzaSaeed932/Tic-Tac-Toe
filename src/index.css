@@ -1,0 +1,17 @@
+*{
+  background-color: black;
+  color: white;
+}
+button{
+  border: 1px solid white;
+  width: 40px;
+  height: 35px;
+}
+/* .tic-tac-toe{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+} */
+.box-row{
+  display: flex;
+}
