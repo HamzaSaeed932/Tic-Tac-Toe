@@ -4,7 +4,6 @@ import Square from "./Square";
 const Board = () => {
   const [value, setValue] = useState(Array(9).fill(null));
   const [number,setNumber] = useState('X');
-
   const calculateWinner=()=>{
     const lines = [
         [0, 1, 2],
@@ -26,7 +25,6 @@ const Board = () => {
   }
 
   const handleSquareValue = (i) => {
-    
     if(value[i] || calculateWinner(value)){
         return;
     } 
@@ -43,7 +41,15 @@ const Board = () => {
   } else {
     status = "Next player: " + (number==='X' ? "X" : "O");
   }
+
+  //Reset the game
+  const handleReset=()=>{
+    const newArray = value.map(() => null);
+    setValue(newArray);
+    setNumber('X');
+  }
   return (
+    <>
     <div>
      <h1>{status}</h1>
       <div className="box-row">
@@ -63,7 +69,10 @@ const Board = () => {
         <Square value={value[7]} index={7} handleClick={handleSquareValue} />
         <Square value={value[8]} index={8} handleClick={handleSquareValue} />
       </div>
+
     </div>
+      <button style={{marginTop:'20px',width:'60px',backgroundColor:'white',color:'black',borderRadius:'7px'}} onClick={handleReset}>Reset</button>
+    </>
   );
 };
 
