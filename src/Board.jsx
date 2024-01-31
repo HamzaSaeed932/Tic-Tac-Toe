@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import Square from "./Square";
 
-const Board = () => {
-  const [value, setValue] = useState(Array(9).fill(null));
-  const [number,setNumber] = useState('X');
+const Board = ({squares,onPlay,xIsNext}) => {
+  // const [squares, setSquares] = useState(Array(9).fill(null));
+
   const calculateWinner=()=>{
     const lines = [
         [0, 1, 2],
@@ -18,60 +18,56 @@ const Board = () => {
 
       for(let i=0;i<lines.length;i++){
         const [a,b,c]=lines[i];
-        if(value[a]===value[b] && value[a]===value[c]){
-            return value[a];
+        if(squares[a]===squares[b] && squares[a]===squares[c]){
+            return squares[a];
         }
       }
   }
 
   const handleSquareValue = (i) => {
-    if(value[i] || calculateWinner(value)){
+    if(squares[i] || calculateWinner(squares)){
         return;
     } 
-    let Copy=value.slice();
-    Copy[i]=number;
-    setNumber(number==='X'?'O':'X');
-    setValue(Copy);
+    let Copy=squares.slice();
+    if (xIsNext) {
+      Copy[i] = 'X';
+    } else {
+      Copy[i] = 'O';
+    }
+    onPlay(Copy);
   };
 
-  const winner = calculateWinner(value);
+  const winner = calculateWinner(squares);
   let status;
   if (winner) {
     status = "Winner: " + winner;
   } else {
-    status = "Next player: " + (number==='X' ? "X" : "O");
+    status = 'Next player: ' + (xIsNext ? 'X' : 'O')
   }
 
-  //Reset the game
-  const handleReset=()=>{
-    const newArray = value.map(() => null);
-    setValue(newArray);
-    setNumber('X');
-  }
   return (
     <>
     <div>
      <h1>{status}</h1>
       <div className="box-row">
-        <Square value={value[0]} index={0} handleClick={handleSquareValue} />
-        <Square value={value[1]} index={1} handleClick={handleSquareValue} />
-        <Square value={value[2]} index={2} handleClick={handleSquareValue} />
+        <Square value={squares[0]} index={0} handleClick={handleSquareValue} />
+        <Square value={squares[1]} index={1} handleClick={handleSquareValue} />
+        <Square value={squares[2]} index={2} handleClick={handleSquareValue} />
       </div>
 
       <div className="box-row">
-        <Square value={value[3]} index={3} handleClick={handleSquareValue} />
-        <Square value={value[4]} index={4} handleClick={handleSquareValue} />
-        <Square value={value[5]} index={5} handleClick={handleSquareValue} />
+        <Square value={squares[3]} index={3} handleClick={handleSquareValue} />
+        <Square value={squares[4]} index={4} handleClick={handleSquareValue} />
+        <Square value={squares[5]} index={5} handleClick={handleSquareValue} />
       </div>
 
       <div className="box-row">
-        <Square value={value[6]} index={6} handleClick={handleSquareValue} />
-        <Square value={value[7]} index={7} handleClick={handleSquareValue} />
-        <Square value={value[8]} index={8} handleClick={handleSquareValue} />
+        <Square value={squares[6]} index={6} handleClick={handleSquareValue} />
+        <Square value={squares[7]} index={7} handleClick={handleSquareValue} />
+        <Square value={squares[8]} index={8} handleClick={handleSquareValue} />
       </div>
 
     </div>
-      <button style={{marginTop:'20px',width:'60px',backgroundColor:'white',color:'black',borderRadius:'7px'}} onClick={handleReset}>Reset</button>
     </>
   );
 };
