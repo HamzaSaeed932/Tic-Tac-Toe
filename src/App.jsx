@@ -4,7 +4,7 @@ function App() {
 
   return (
     <>
-    <h1>Tic-Tac-Toe</h1>
+    <h1>Tic-Tac-Toe Game</h1>
     <Game />
     </>
   )
